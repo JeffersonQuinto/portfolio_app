@@ -1,3 +1,4 @@
+// App.jsx
 import { useEffect, useState } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
@@ -18,10 +19,11 @@ function App() {
       })
       .then((data) => {
         setCount(data.count);
+        setError(null);
       })
       .catch((err) => {
         console.error("Error fetching count:", err);
-        setError(err.message);
+        setError("Failed to load count.");
       });
   }, []);
 
@@ -35,10 +37,11 @@ function App() {
       .then((data) => {
         setCount(data.count);
         setLoading(false);
+        setError(null);
       })
       .catch((err) => {
         console.error("Error updating count:", err);
-        setError(err.message);
+        setError("Failed to update count.");
         setLoading(false);
       });
   };
@@ -58,12 +61,11 @@ function App() {
       <p>This is my portfolio.</p>
 
       <div className="card">
-  <button onClick={handleClick} disabled={loading}>
-    {loading ? "Updating..." : `count is ${count}`}
-  </button>
-  {error && <p style={{ color: "red" }}>Error: {error}</p>}
-</div>
-
+        <button onClick={handleClick} disabled={loading}>
+          {loading ? "Updating..." : `count is ${count}`}
+        </button>
+        {error && <p style={{ color: "red" }}>⚠️ {error}</p>}
+      </div>
 
       <p className="read-the-docs">Stop moving = Start losing</p>
     </>
