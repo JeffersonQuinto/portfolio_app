@@ -8,7 +8,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+  const API_BASE = "https://portfolio-app-o4ma.onrender.com";
 
   useEffect(() => {
     fetch(`${API_BASE}/count`)
@@ -23,7 +23,7 @@ function App() {
         console.error("Error fetching count:", err);
         setError(err.message);
       });
-  }, [API_BASE]);
+  }, []);
 
   const handleClick = () => {
     setLoading(true);
