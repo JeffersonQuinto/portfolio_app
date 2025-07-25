@@ -4,6 +4,18 @@
   padding: 2rem;
   text-align: center;
 }
+.karaoke {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  color: #fff;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
 
 .logo {
   height: 6em;
