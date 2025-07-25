@@ -1,26 +1,34 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+import os
 
 app = FastAPI()
 
-# Allow requests from frontend (adjust for Netlify domain if needed)
+# Allow CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # Allow all origins (or specify your frontend URL)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-count = 0  # In-memory variable
+# Simulated in-memory count
+click_count = 0
 
 @app.get("/count")
 def get_count():
-    return {"count": count}
+    return {"count": click_count}
 
 @app.post("/click")
-def increase_count():
-    global count
-    count += 1
-    return {"count": count}
+def increment_count():
+    global click_count
+    click_count += 1
+    return {"count": click_count}
+
+# Serve frontend
+@app.get("/")
+def serve_frontend():
+    return FileResponse(os.getenv("FRONTEND_PATH", "index.html"))
 
