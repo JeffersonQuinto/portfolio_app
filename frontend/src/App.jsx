@@ -58,16 +58,12 @@ function App() {
       <p>This is my portfolio.</p>
 
       <div className="card">
-        {loading ? (
-          <p>Loading...</p>
-        ) : error ? (
-          <p>Error: {error}</p>
-        ) : (
-          <button onClick={handleClick}>
-            count is {count}
-          </button>
-        )}
-      </div>
+  <button onClick={handleClick} disabled={loading}>
+    {loading ? "Updating..." : `count is ${count}`}
+  </button>
+  {error && <p style={{ color: "red" }}>Error: {error}</p>}
+</div>
+
 
       <p className="read-the-docs">Stop moving = Start losing</p>
     </>
