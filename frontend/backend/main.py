@@ -7,10 +7,11 @@ count = 0
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # or your frontend origin only
+    allow_origins=["https://jeffersonquinto.netlify.app/"],  # This allows all origins
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 @app.get("/count")
 def get_count():

@@ -5,7 +5,7 @@ import './App.css';
 
 function App() {
   const [count, setCount] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
@@ -18,12 +18,10 @@ function App() {
       })
       .then((data) => {
         setCount(data.count);
-        setLoading(false);
       })
       .catch((err) => {
         console.error("Error fetching count:", err);
         setError(err.message);
-        setLoading(false);
       });
   }, [API_BASE]);
 
