@@ -5,30 +5,43 @@ import './App.css';
 
 function App() {
   const [count, setCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
   useEffect(() => {
     fetch(`${API_BASE}/count`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error('Network response was not ok');
+        return res.json();
+      })
       .then((data) => {
-        console.log("Fetched count:", data.count);
         setCount(data.count);
+        setLoading(false);
       })
       .catch((err) => {
         console.error("Error fetching count:", err);
+        setError(err.message);
+        setLoading(false);
       });
   }, [API_BASE]);
 
   const handleClick = () => {
+    setLoading(true);
     fetch(`${API_BASE}/click`, { method: "POST" })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error('Network response was not ok');
+        return res.json();
+      })
       .then((data) => {
-        console.log("Updated count:", data.count);
         setCount(data.count);
+        setLoading(false);
       })
       .catch((err) => {
         console.error("Error updating count:", err);
+        setError(err.message);
+        setLoading(false);
       });
   };
 
@@ -47,9 +60,15 @@ function App() {
       <p>This is my portfolio.</p>
 
       <div className="card">
-        <button onClick={handleClick}>
-          count is {count}
-        </button>
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p>Error: {error}</p>
+        ) : (
+          <button onClick={handleClick}>
+            count is {count}
+          </button>
+        )}
       </div>
 
       <p className="read-the-docs">Stop moving = Start losing</p>
