@@ -1,74 +1,42 @@
-// App.jsx
-import { useEffect, useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import { useState, useEffect } from 'react';
+
+const API_URL = 'https://portfolio-app-o4ma.onrender.com';
 
 function App() {
   const [count, setCount] = useState(0);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const API_BASE = "https://portfolio-app-o4ma.onrender.com";
-
+  // Fetch count on load
   useEffect(() => {
-    fetch(`${API_BASE}/count`)
+    fetch(`${API_URL}/count`)
       .then((res) => {
-        if (!res.ok) throw new Error('Network response was not ok');
+        if (!res.ok) throw new Error("Failed to fetch count");
         return res.json();
       })
-      .then((data) => {
-        setCount(data.count);
-        setError(null);
-      })
-      .catch((err) => {
-        console.error("Error fetching count:", err);
-        setError("Failed to load count.");
-      });
+      .then((data) => setCount(data.count))
+      .catch((err) => setError(err.message));
   }, []);
 
+  // Handle button click
   const handleClick = () => {
-    setLoading(true);
-    fetch(`${API_BASE}/click`, { method: "POST" })
+    fetch(`${API_URL}/click`, {
+      method: 'POST',
+    })
       .then((res) => {
-        if (!res.ok) throw new Error('Network response was not ok');
+        if (!res.ok) throw new Error("Failed to click");
         return res.json();
       })
-      .then((data) => {
-        setCount(data.count);
-        setLoading(false);
-        setError(null);
-      })
-      .catch((err) => {
-        console.error("Error updating count:", err);
-        setError("Failed to update count.");
-        setLoading(false);
-      });
+      .then((data) => setCount(data.count))
+      .catch((err) => setError(err.message));
   };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank" rel="noopener noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noopener noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-
-      <h1>Hello, I'm Jefferson Quinto 👋</h1>
-      <p>This is my portfolio.</p>
-
-      <div className="card">
-        <button onClick={handleClick} disabled={loading}>
-          {loading ? "Updating..." : `count is ${count}`}
-        </button>
-        {error && <p style={{ color: "red" }}>⚠️ {error}</p>}
-      </div>
-
-      <p className="read-the-docs">Stop moving = Start losing</p>
-    </>
+    <div style={{ textAlign: 'center', paddingTop: '50px' }}>
+      <h1>Click Counter</h1>
+      <p>Count: {count}</p>
+      <button onClick={handleClick}>Click Me!</button>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+    </div>
   );
 }
 
