@@ -1,87 +1,70 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
-const lyrics = [
-  "Mahirap bang ipilit ang lumaban 'pag hindi na kaya?",
-  "Saan na kukuha ng lakas?",
-  "Ibuhos man lahat-lahat, wala pa rin itong pag-asa",
-  "Kung mag-isa kang lalaban",
-  "Sa pagtakbo ng oras, unti-unting kumupas",
-  "Ang dating wagas ay magwawakas",
-  "Masisisi mo ba kung ayaw na talaga?",
-  "Kung ang pag-ibig mo, tuluyang maglaho",
-  "Oh, ba't nagbago bigla? Mga titig ay nag-iba",
-  "Ika'y lumalayo, tadhana ba ito?",
-  "Kapag damdamin na'ng nagsalita",
-  "Wala ka nang magagawa kundi sundin ito kahit ayaw",
-  "Wala na ngang natitira, lahat-lahat, naglaho na",
-  "Konting pilit pa'y masusugatan, bumitaw ka na",
-  "Sa pagtakbo ng ang oras, unti-unting kumupas",
-  "Ang dating wagas ay magwawakas",
-  "Masisisi mo ba kung ayaw na talaga?",
-  "Kung ang pag-ibig mo, tuluyang maglaho",
-  "Oh, ba't nagbago bigla? Mga titig ay nag-iba",
-  "Ika'y lumalayo, tadhana ba ito?",
-  "Tayo'y nagkamali, tayo ay nasugatan",
-  "Maling galaw, lahat ay sasabit",
-  "Ito na ba'ng huli, tayo'y magpapaalam na",
-  "Sa ating nakaraan at bibitawan?",
-  "Masisisi mo ba kung ayaw na talaga?",
-  "Kung ang pag-ibig mo, tuluyang maglaho",
-  "Masisisi mo ba kung ayaw na talaga?",
-  "Kung ang pag-ibig mo (pag-ibig mo), tuluyang maglaho",
-  "Oh, ba't nagbago bigla? Mga titig ay nag-iba",
-  "Ika'y papalayo, tadhana ba ito?"
-];
-
+import { useEffect, useState } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [currentLine, setCurrentLine] = useState(0);
+  const [count, setCount] = useState(0);
 
+  // ✅ This will allow dynamic switching between local and deployed backend
+  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
+  // Load click count on mount
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentLine((prev) => (prev + 1) % lyrics.length);
-    }, 2000); // Change lyric every 2 seconds
+    const fetchCount = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/count`);
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const data = await res.json();
+        console.log("Fetched count:", data.count);
+        setCount(data.count);
+      } catch (error) {
+        console.error("❌ Failed to fetch count:", error);
+      }
+    };
+    fetchCount();
+  }, [API_BASE]);
 
-    return () => clearInterval(interval);
-  }, []);
-
+  // Handle click and update count
+  const handleClick = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/click`, {
+        method: "POST",
+      });
+      const data = await res.json();
+      console.log("Updated count:", data.count);
+      setCount(data.count);
+    } catch (error) {
+      console.error("❌ Failed to update count:", error);
+    }
+  };
 
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
+        <a href="https://vite.dev" target="_blank" rel="noopener noreferrer">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
-        <a href="https://react.dev" target="_blank">
+        <a href="https://react.dev" target="_blank" rel="noopener noreferrer">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
+
       <h1>Hello, I'm Jefferson Quinto 👋</h1>
       <p>This is my portfolio.</p>
-      
-       {/* Karaoke Lyrics Display */}
-      <div className="karaoke">
-        <h2 style={{ color: '#61dafb', fontFamily: 'monospace' }}>🎤 Karaoke</h2>
-        <pre style={{ fontSize: '1.25rem' }}>{lyrics[currentLine]}</pre>
-      </div>
-      
+
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button onClick={handleClick}>
           count is {count}
         </button>
-        <p>
-          
-        </p>
       </div>
-      <p className="read-the-docs">
-        Stop moving = Start losing
-      </p>
+
+      <p className="read-the-docs">Stop moving = Start losing</p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
+
