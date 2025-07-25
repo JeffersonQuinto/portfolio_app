@@ -8,39 +8,41 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Use the API base URL from environment variables
   const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
+  // Fetch the current count when the component mounts
   useEffect(() => {
-    fetch(`${API_BASE}/count`)
-      .then((res) => {
-        if (!res.ok) throw new Error('Network response was not ok');
-        return res.json();
-      })
-      .then((data) => {
+    const fetchCount = async () => {
+      try {
+        const response = await fetch(`${API_BASE}/count`);
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
         setCount(data.count);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("Error fetching count:", err);
         setError(err.message);
-      });
+      }
+    };
+
+    fetchCount();
   }, [API_BASE]);
 
-  const handleClick = () => {
+  // Handle button click to increment the count
+  const handleClick = async () => {
     setLoading(true);
-    fetch(`${API_BASE}/click`, { method: "POST" })
-      .then((res) => {
-        if (!res.ok) throw new Error('Network response was not ok');
-        return res.json();
-      })
-      .then((data) => {
-        setCount(data.count);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error updating count:", err);
-        setError(err.message);
-        setLoading(false);
-      });
+    setError(null); // Reset error state before making the request
+    try {
+      const response = await fetch(`${API_BASE}/click`, { method: "POST" });
+      if (!response.ok) throw new Error('Network response was not ok');
+      const data = await response.json();
+      setCount(data.count);
+    } catch (err) {
+      console.error("Error updating count:", err);
+      setError(err.message);
+    } finally {
+      setLoading(false); // Ensure loading state is reset
+    }
   };
 
   return (
@@ -64,7 +66,7 @@ function App() {
           <p>Error: {error}</p>
         ) : (
           <button onClick={handleClick}>
-            count is {count}
+            Count is {count}
           </button>
         )}
       </div>

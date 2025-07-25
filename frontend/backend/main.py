@@ -3,10 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-# Initialize count
 count = 0
 
-# Allow specific origins (recommended for production)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://jeffersonquinto.netlify.app"],  # Ensure no trailing slash
@@ -16,11 +14,11 @@ app.add_middleware(
 )
 
 @app.get("/count")
-def read_count():
+def get_count():
     return {"count": count}
 
 @app.post("/click")
-def update_count():
+def increment_count():
     global count
     count += 1
     return {"count": count}
