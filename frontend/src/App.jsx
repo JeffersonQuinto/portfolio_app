@@ -4,11 +4,38 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 const lyrics = [
-  "print('Python, Python, you’re so fine!')",
-  "print('Coding every single line.')",
-  "print('Loops and functions make me cheer,')",
-  "print('Python syntax – crystal clear!')"
+  "Mahirap bang ipilit ang lumaban 'pag hindi na kaya?",
+  "Saan na kukuha ng lakas?",
+  "Ibuhos man lahat-lahat, wala pa rin itong pag-asa",
+  "Kung mag-isa kang lalaban",
+  "Sa pagtakbo ng oras, unti-unting kumupas",
+  "Ang dating wagas ay magwawakas",
+  "Masisisi mo ba kung ayaw na talaga?",
+  "Kung ang pag-ibig mo, tuluyang maglaho",
+  "Oh, ba't nagbago bigla? Mga titig ay nag-iba",
+  "Ika'y lumalayo, tadhana ba ito?",
+  "Kapag damdamin na'ng nagsalita",
+  "Wala ka nang magagawa kundi sundin ito kahit ayaw",
+  "Wala na ngang natitira, lahat-lahat, naglaho na",
+  "Konting pilit pa'y masusugatan, bumitaw ka na",
+  "Sa pagtakbo ng ang oras, unti-unting kumupas",
+  "Ang dating wagas ay magwawakas",
+  "Masisisi mo ba kung ayaw na talaga?",
+  "Kung ang pag-ibig mo, tuluyang maglaho",
+  "Oh, ba't nagbago bigla? Mga titig ay nag-iba",
+  "Ika'y lumalayo, tadhana ba ito?",
+  "Tayo'y nagkamali, tayo ay nasugatan",
+  "Maling galaw, lahat ay sasabit",
+  "Ito na ba'ng huli, tayo'y magpapaalam na",
+  "Sa ating nakaraan at bibitawan?",
+  "Masisisi mo ba kung ayaw na talaga?",
+  "Kung ang pag-ibig mo, tuluyang maglaho",
+  "Masisisi mo ba kung ayaw na talaga?",
+  "Kung ang pag-ibig mo (pag-ibig mo), tuluyang maglaho",
+  "Oh, ba't nagbago bigla? Mga titig ay nag-iba",
+  "Ika'y papalayo, tadhana ba ito?"
 ];
+
 
 function App() {
   const [count, setCount] = useState(0)
