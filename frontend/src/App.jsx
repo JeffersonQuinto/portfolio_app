@@ -65,7 +65,7 @@ function App() {
       
        {/* Karaoke Lyrics Display */}
       <div className="karaoke">
-        <h2 style={{ color: '#61dafb', fontFamily: 'monospace' }}>🎤 Python Karaoke</h2>
+        <h2 style={{ color: '#61dafb', fontFamily: 'monospace' }}>🎤 Karaoke</h2>
         <pre style={{ fontSize: '1.25rem' }}>{lyrics[currentLine]}</pre>
       </div>
       
@@ -74,11 +74,11 @@ function App() {
           count is {count}
         </button>
         <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+          
         </p>
       </div>
       <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+        Stop moving = Start losing
       </p>
     </>
   )
